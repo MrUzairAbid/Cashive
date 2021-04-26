@@ -43,22 +43,22 @@ const CashListing = (props) => {
             setOpen(false);
         }
     }
-
+    
     let cashlist = (
             <TableBody>            
-                {props.entries.map((entries, index) => {
+                {props.entries.map((entries, id) => {
                     return (
-                        <TableRow key={index} id={index}>
-                                <TableCell >{entries.description}</TableCell>
-                                <TableCell>{entries.amount}</TableCell>
-                                <TableCell>{entries.date}</TableCell>
-                                <TableCell>{entries.type.title}</TableCell>
-                                <TableCell align="right">
-                                    <IconButton aria-label="expand row" size="small" onClick={handleClickOpen.bind(this, index)}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </TableCell>
-                            </TableRow>
+                        <TableRow key={entries.id} id={entries.id}>
+                            <TableCell>{entries.description}</TableCell>
+                            <TableCell>{entries.amount}</TableCell>
+                            <TableCell>{entries.expenseDateOccurred}</TableCell>
+                            <TableCell>{entries.type}</TableCell>
+                            <TableCell align="right">
+                                <IconButton aria-label="expand row" size="small" onClick={handleClickOpen.bind(this, entries.id)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </TableCell>
+                        </TableRow>
                     ); 
                 })}
                 <Dialog fullScreen={fullScreen} open={open} onClose={handleClose} aria-labelledby="responsive-dialog-title">

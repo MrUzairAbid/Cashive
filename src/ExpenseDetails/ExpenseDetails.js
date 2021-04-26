@@ -47,7 +47,9 @@ const ExpenseRegister = (props) => {
         event.preventDefault();
         if(validateForm())
         {
-            let cashEntry = new CashEntry(description, amount, date, type);
+            var formattedAmount = amount.replace(',','').replace("Rs. ","");
+            var formattedDate = date.replaceAll('-', '/');
+            let cashEntry = new CashEntry(description, parseFloat(formattedAmount), formattedDate, type.title);
             resetForm();
             props.add(cashEntry);
         }    
