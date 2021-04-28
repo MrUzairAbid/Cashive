@@ -4,23 +4,40 @@ import CashListing from '../CashListing/CashListing';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import ExpenseAPI from '../api/ExpenseAPI';
 
 
 class ExpenseRegister extends Component {
+
+  componentDidMount()
+  {
+    this.refreshRegister();
+  }
 
   state = {
     cashEntries: []
   }
 
-  addCashEntryToState = (cashEntry) => {
-    const cashEntries = [...this.state.cashEntries, cashEntry];
-    this.setState({ cashEntries: cashEntries });
+  addCashEntryToState = async (cashEntry) => {
+    const response = await ExpenseAPI.post(
+      '/expense/save', cashEntry,{}
+    );
+    this.refreshRegister();
   }
 
-  removeCashEntryFromState = (index) => {
-    const cashEntries = this.state.cashEntries;
-    cashEntries.splice(index, 1);
-    this.setState({ cashEntries: cashEntries });
+  removeCashEntryFromState = async (id) => {
+    const response = await ExpenseAPI.delete(
+      '/expense/delete/' + id,{}
+    );
+    this.refreshRegister();
+  }
+
+  async refreshRegister()
+  {
+    const response = await ExpenseAPI.get(
+      '/expense/all',{}
+    );
+    this.setState({cashEntries: response.data});
   }
 
   render() {
@@ -42,7 +59,6 @@ class ExpenseRegister extends Component {
       </Container>
     );
   }
-
 }
 
 export default ExpenseRegister;
